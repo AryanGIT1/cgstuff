@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>Admin Page!</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(249, 85, 236);">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#" style="color: rgb(254, 254, 254);">Admin Dashboard</a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#"
+                            style="color: rgb(254, 254, 254);">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#"
+                            style="color: rgb(254, 254, 254);">Signout</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit"
+                        style="color: rgb(249, 85, 236); background-color: rgb(242, 242, 242);">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    {% if msg_green %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{msg_green_con}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% if msg_red %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{msg_red_con}}!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="container">
+        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                    type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"
+                    style="color: rgb(249, 85, 236)">Create Blog</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                    type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false"
+                    style="color: rgb(249, 85, 236);">Create Ads</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane"
+                    type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false"
+                    style="color: rgb(249, 85, 236);">Users Info</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                tabindex="0">
+                <div class="container">
+                    <form action="">
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Author" aria-label="Author">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Title" aria-label="Title">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Descreption" aria-label="desc">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Place" aria-label="place">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="formFile" class="form-label">Input Image</label>
+                                <input class="form-control" type="file" id="formFile">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="exampleDataList" class="form-label">Input Tags</label>
+                                <input class="form-control" list="datalistOptions" id="exampleDataList"
+                                    placeholder="Type to search...">
+                                <datalist id="datalistOptions">
+                                    <option value="YouTube Podcast">
+                                    <option value="Top News">
+                                    <option value="Featured News">
+                                    <option value="Finance News">
+                                    <option value="Goverment News">
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Content</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="YouTube Link"
+                                    aria-label="Youtube Link">
+                            </div>
+                            <div class="col-md-6 justify-content-center">
+                                <button type="submit" class="btn btn-primary">Submit!</button>
+                            </div>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                <div class="container">
+                    <form action="">
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Company Name"
+                                    aria-label="Company Name">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Desc" aria-label="Desc">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="formFile" class="form-label">Input Image</label>
+                                <input class="form-control" type="file" id="formFile">
+                            </div>
+                            <div class="col-md-6 justify-content-center">
+                                <br>
+                                <button type="submit" class="btn btn-primary">Submit!</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                <div class="container">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Name</td>
+                                <td>Email</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Name</td>
+                                <td>Email</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id="blogs" class="container">
+            <h2>All BLogs!</h2>
+            <br>
+            <div class="row">
+                {% for i in blogs %}
+                <div class="col-sm-4" style="margin-top: 10px; margin-bottom: 10px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ i.title }}</h6>
+                            <p class="card-text">{{ i.desc }}</p>
+                            <p class="card-text">{{ i.date}} ; {{i.place}} ; {{i.tags}}</p>
+                            <a class="nav-link active stretched-link" aria-current="page" href="/admin/blog/{{i.id}}"
+                                style="color: rgb(249, 85, 236);">Actions!</a>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        <br>
+        <div id="ads" class="container">
+            <h2>All Ads!</h2>
+            <br>
+            <div class="row">
+                {% for ad in ads %}
+                <div class="col-sm-4" style="margin-top: 10px; margin-bottom: 10px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ ad.company_name }}</h6>
+                            <p class="card-text">{{ ad.content }}</p>
+                            <a class="nav-link active stretched-link" aria-current="page" href="/admin/delads/{{i.id}}"
+                                style="color: rgb(249, 85, 236);">Delete AD!</a>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        <br>
+        <div id="comms" class="container">
+            <h2>All Communication</h2>
+            <br>
+            <div class="row">
+                {% for com in comms %}
+                <div class="col-sm-4" style="margin-top: 10px; margin-bottom: 10px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ com.author }}</h6>
+                            <p class="card-text">{{ com.content }}</p>
+                            <p class="card-text">{{ com.email }}</p>
+                            <a class="nav-link active stretched-link" aria-current="page" href="admin/delcom/{{i.id}}"
+                                style="color: rgb(249, 85, 236);">Delete Msg!</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <footer class="page-footer font-small blue">
+
+        <div class="footer-copyright text-center py-3" style="background-color: rgb(253, 225, 253);">© 2022 Copyright:
+            <a href="/"> CGTOPNEWS.com</a>
+        </div>
+
+    </footer>
+    <!-- Footer -->
+</body>
+
+</html>

@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>Chatisgarh Top News</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+
+<body>
+
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(249, 85, 236);">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#" style="color: rgb(254, 254, 254);">CG Top News</a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#"
+                            style="color: rgb(254, 254, 254);">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" style="color: rgb(254, 254, 254);">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/#ftnews">Featured News</a></li>
+                            <li><a class="dropdown-item" href="/#topnews">Top News</a></li>
+                            <li><a class="dropdown-item" href="/#finance">Finace News</a></li>
+                            <li><a class="dropdown-item" href="/#govt">Goverment News</a></li>
+                            <li><a class="dropdown-item" href="/aboutus">About Us</a></li>
+                        </ul>
+                    </li>
+                    {% if not user %}
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#login" aria-current="page"
+                            href="#" style="color: rgb(254, 254, 254);">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#signup" aria-current="page"
+                            href="#" style="color: rgb(254, 254, 254);">Signup</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#"
+                            style="color: rgb(254, 254, 254);">Signout</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit"
+                        style="color: rgb(249, 85, 236); background-color: rgb(242, 242, 242);">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- msgs and handaling -->
+    {% if msg_green %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{msg_green_con}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% if msg_red %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{msg_red_con}}!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    {% endif %}
+
+    <!-- Modal Login-->
+
+    {% if not user %}
+    <div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Login</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="inputEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="inputEmail4">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="inputPassword4">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" style="color: rgb(95, 91, 94);" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn" style="color: rgb(249, 85, 236);">Sign In!</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Signup-->
+    <div class="modal fade" id="signup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Login</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="inputEmails" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="inputEmails">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputNames" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="inputNames">
+                        </div>
+                        <div class="col-12">
+                            <label for="inputPasswords" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="inputPasswords">
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" style="color: rgb(95, 91, 94);" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn" style="color: rgb(249, 85, 236);">Sign Up!</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <br><br>
+    <!-- Main Body-->
+
+    {% if yt_news %}
+
+    <div class="container">
+        <h2>Top podcast!</h2>
+        <br>
+        <div id="yt_links" class="carousel slide" data-bs-ride="false">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#yt_links" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#yt_links" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#yt_links" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+            {% for yt in yt_news %}
+            <div class="carousel-inner">
+                <div class="carousel-item {% if loop.counter == 1 %}active{% endif %}">
+                    <iframe class="container" height="522" src="https://www.youtube.com/embed/n_FCrCQ6-bA?autoplay=1&mute=1">
+                    </iframe>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{yt.title}}</h5>
+                        <p>{{yt.desc}}</p>
+                        <a class="nav-link active stretched-link" aria-current="page" href="#" style="color: rgb(255, 255, 255);">Read
+                            More!</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#yt_links"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#yt_links"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div><br><br>
+    {% endif %}
+    
+    <div class="container">
+
+        {% if ft_news %}
+        <div id="ftnews" class="container">
+            <h2>Featured News!</h2>
+            <br>
+            <div class="row">
+                {% for ft in ft_news %}
+                <div class="col-sm-4" style="margin-top: 10px;">
+                    <div class="card">
+                        <img src="../static/imgs/place.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ft.title}}</h6>
+                            <p class="card-text">{{ft.desc}}</p>
+                            <a class="nav-link active stretched-link" aria-current="page" href="/blog/{{ft.id}}"
+                                style="color: rgb(249, 85, 236);">Read
+                                More!</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <br><br>
+        {% endif %}
+
+        {% if tp_news %}
+        <div id="topnews" class="container">
+            <h2>Top News</h2>
+            <br>
+            <div class="row">
+                {% for tp in tp_news %}
+                <div class="col-sm-4" style="margin-top: 10px; margin-bottom: 10px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ tp.title }}</h6>
+                            <p class="card-text">{{ tp.desc }}</p>
+                            <p class="card-text">Date: {{ tp.date }}; Place {{ tp.place }}</p>
+                            <a class="nav-link active stretched-link" aria-current="page" href="/blog/{{tp.id}}"
+                                style="color: rgb(249, 85, 236);">Read More!</a>
+
+                        </div>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div><br><br>
+        {% endif %}
+
+        {% if fin_news %}
+        <div id="finance" class="container">
+            <h2>Finance News</h2>
+            <br>
+            <div class="row">
+                {% for fin in fin_news %}
+                <div class="col-sm-4" style="margin-top: 10px; margin-bottom: 10px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ fin.title }}</h6>
+                            <p class="card-text">{{ fin.desc }}</p>
+                            <p class="card-text">Date: {{ fin.date }}; Place {{ fin.place }}</p>
+                            <a class="nav-link active stretched-link" aria-current="page" href="/blog/{{fin.id}}"
+                                style="color: rgb(249, 85, 236);">Read More!</a>
+
+                        </div>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div><br><br>
+        {% endif %}
+
+        {% if govt_news %}
+        <div id="govt" class="container">
+            <h2>Goverment News</h2>
+            <br>
+            <div class="row">
+                {% for gvt in govt_news %}
+                <div class="col-sm-4" style="margin-top: 10px; margin-bottom: 10px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ gvt.title }}</h6>
+                            <p class="card-text">{{ gvt.desc }}</p>
+                            <p class="card-text">Date: {{ gvt.date }}; Place {{ gvt.place }}</p>
+                            <a class="nav-link active stretched-link" aria-current="page" href="/blog/{{gvt.id}}"
+                                style="color: rgb(249, 85, 236);">Read More!</a>
+
+                        </div>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
+        <br><br>
+        {% endif %}
+
+    </div>
+    <!-- Footer -->
+
+    <footer class="page-footer font-small blue">
+
+        <div class="footer-copyright text-center py-3" style="background-color: rgb(253, 225, 253);">© 2022 Copyright:
+            <a href="/"> CGTOPNEWS.com</a>
+        </div>
+
+    </footer>
+    <!-- Footer -->
+</body>
+
+</html>

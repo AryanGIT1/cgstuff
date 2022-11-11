@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>Chatisgarh Top News</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(249, 85, 236);">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#" style="color: rgb(254, 254, 254);">CG Top News</a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#"
+                            style="color: rgb(254, 254, 254);">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" style="color: rgb(254, 254, 254);">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/#ftnews">Featured News</a></li>
+                            <li><a class="dropdown-item" href="/#topnews">Top News</a></li>
+                            <li><a class="dropdown-item" href="/#finance">Finace News</a></li>
+                            <li><a class="dropdown-item" href="/#govt">Goverment News</a></li>
+                            <li><a class="dropdown-item" href="/aboutus">About Us</a></li>
+                        </ul>
+                    </li>
+                    {% if not user %}
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#login" aria-current="page"
+                            href="#" style="color: rgb(254, 254, 254);">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#signup" aria-current="page"
+                            href="#" style="color: rgb(254, 254, 254);">Signup</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#"
+                            style="color: rgb(254, 254, 254);">Signout</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit"
+                        style="color: rgb(249, 85, 236); background-color: rgb(242, 242, 242);">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- msgs and handaling -->
+    {% if msg_green %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{msg_green_con}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% if msg_red %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{msg_red_con}}!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    {% endif %}
+
+    <!-- Modal Login-->
+
+    {% if user == False %}
+    <div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Login</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="inputEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="inputEmail4">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="inputPassword4">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" style="color: rgb(95, 91, 94);" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn" style="color: rgb(249, 85, 236);">Sign In!</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Signup-->
+    <div class="modal fade" id="signup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Login</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="inputEmails" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="inputEmails">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputNames" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="inputNames">
+                        </div>
+                        <div class="col-12">
+                            <label for="inputPasswords" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="inputPasswords">
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" style="color: rgb(95, 91, 94);" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn" style="color: rgb(249, 85, 236);">Sign Up!</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <br><br>
+    <br>
+
+    <div class="container" style="text-align: center;">
+        <h1>{{blog.title}}</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <h6>{{blog.author}}</h6>
+            </div>
+            <div class="col-md-6">
+                <h6>{{blog.date}}</h6>
+            </div>
+        <br>
+            <div class="col-md-6">
+                <h6>{{blog.place}}</h6>
+            </div>
+            <div class="col-md-6">
+                <h6>{{blog.tags}}</h6>
+            </div>
+        </div>
+        <br><br>
+        <div class="container">
+            {{blog.desc}}
+        </div>
+    </div>
+    <br><br>
+
+    {% if audio %}
+    <div class="container">
+        <audio controls>
+            <source src="{{audio}}" type="audio/mpeg">
+        </audio>
+    </div>
+    <br><br>
+    {% endif %}
+
+    {% if blog.img_link %}
+    <div class="container">
+        <img src="{{blog.img_link}}" class="d-block w-100" alt="..." style="height: 35rem; width: 40rem">
+    </div>
+    <br><br>
+    {% endif %}
+
+    {% if blog.yt_link %}
+
+    <div class="container" align=center>
+        <iframe class="container" height="522" src="https://www.youtube.com/embed/{{ blog.yt_link }}?autoplay=1&mute=1">
+        </iframe>
+    </div>
+    <br><br>
+    {% endif %}
+
+    <div class="container" style="text-align: center;">
+        <br><br>
+        <div class="container">
+            <p>{{blog.content}}</p>
+        </div>
+        <br>
+    </div>
+    <br>
+
+    {% if ad %}
+    <div class="container card mb-3">
+        {% if ad.img_add_com%}
+        <img src="{{ad.img_add_com}}" class="card-img-top" alt="...">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{ad.company_name}}</h5>
+            <p class="card-text">{{ad.content}}</p>
+            <p class="card-text"><small class="text-muted">Ad</small></p>
+        </div>
+    </div>
+    <br>
+    {% endif %}
+
+    {% if comms %}
+    <div class="container">
+        <div class="container" style="text-align: center;">
+            <h1>Comments</h1>
+        </div>
+        <br><br>
+        <div class="row">
+            {% if user %}
+            <div class="col-md-6">
+                <label for="" class="form-label">Add Comment</label>
+                <input type="text" class="form-control" placeholder="Add Comment" aria-label="Add Comment">
+            </div>
+            <div class="col-md-6">
+                <br>
+                <button type="submit" class="btn" style="color: rgb(249, 85, 236);">Submit!</button>
+            </div>
+            {% eles %}
+            <div class="conatiner" align="center">
+                <h6>Pls Login to add comments!</h6>
+            </div>
+            {% endif %}
+        </div>
+        <br><br>
+        <div class="row">
+            {% for i in comms %}
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ i.name_com }}</h5>
+                        <p class="card-text">{{ i.content }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+    {% endif %}
+
+    {% if admin_con %}
+    <div class="container">
+        <form action="">
+            <br>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Author" aria-label="Author">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Title" aria-label="Title">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Descreption" aria-label="desc">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Place" aria-label="place">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="formFile" class="form-label">Input Image</label>
+                    <input class="form-control" type="file" id="formFile">
+                </div>
+                <div class="col-md-6">
+                    <label for="exampleDataList" class="form-label">Input Tags</label>
+                    <input class="form-control" list="datalistOptions" id="exampleDataList"
+                        placeholder="Type to search...">
+                    <datalist id="datalistOptions">
+                        <option value="YouTube Podcast">
+                        <option value="Top News">
+                        <option value="Featured News">
+                        <option value="Finance News">
+                        <option value="Goverment News">
+                    </datalist>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Content</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="YouTube Link"
+                        aria-label="Youtube Link">
+                </div>
+                <div class="col-md-6 justify-content-center">
+                    <button type="submit" class="btn btn-primary">Submit!</button>
+                </div>
+            </div>
+            <br>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- Footer -->
+    <footer class="page-footer font-small blue">
+
+        <div class="footer-copyright text-center py-3" style="background-color: rgb(253, 225, 253);">© 2022 Copyright:
+            <a href="/"> CGTOPNEWS.com</a>
+        </div>
+
+    </footer>
+    <!-- Footer -->
+</body>
+
+</html>
