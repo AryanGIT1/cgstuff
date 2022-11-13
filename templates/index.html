@@ -163,9 +163,8 @@
             </div>
             {% for yt in yt_news %}
             <div class="carousel-inner">
-                <div class="carousel-item {% if loop.counter == 1 %}active{% endif %}">
-                    <iframe class="container" height="522" src="https://www.youtube.com/embed/{{yt.yt_link}}?autoplay=1&mute=1">
-                    </iframe>
+                <div class="carousel-item active">
+                    <iframe class = "container" {{yt.yt_link}}</iframe>
                     <div class="carousel-caption d-none d-md-block">
                         <h5>{{yt.title}}</h5>
                         <p>{{yt.desc}}</p>
@@ -199,11 +198,11 @@
                 {% for ft in ft_news %}
                 <div class="col-sm-4" style="margin-top: 10px;">
                     <div class="card">
-                        <img src="../static/imgs/place.jpg" class="card-img-top" alt="...">
+                        <img src="..{{ft.img_link}}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h6 class="card-title">{{ft.title}}</h6>
                             <p class="card-text">{{ft.desc}}</p>
-                            <a class="nav-link active stretched-link" aria-current="page" href="/blog/{{ft.id}}"
+                            <a class="nav-link active stretched-link" aria-current="page" href="/blog/audio/{{ft.id}}"
                                 style="color: rgb(249, 85, 236);">Read
                                 More!</a>
                         </div>

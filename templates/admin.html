@@ -18,7 +18,7 @@
                 aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="#" style="color: rgb(254, 254, 254);">Admin Dashboard</a>
+            <a class="navbar-brand" href="/admin" style="color: rgb(254, 254, 254);">Admin Dashboard</a>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
@@ -131,22 +131,22 @@
             </div>
             <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                 <div class="container">
-                    <form method="post" action="/admin/create/adverts/">
+                    <form method="post" action="/admin/create/adverts/" enctype="multipart/form-data">
                         <br>
                         <div class="row">
                             <div class="col-md-6">
                                 <input type="text" class="form-control" placeholder="Company Name"
-                                    aria-label="Company Name">
+                                    aria-label="Company Name" name = "company_name">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Desc" aria-label="Desc">
+                                <input type="text" class="form-control" placeholder="Desc" aria-label="Desc" name = "content">
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="formFile" class="form-label">Input Image</label>
-                                <input class="form-control" type="file" id="formFile">
+                                <input class="form-control" type="file" id="formFile" name = "img_link">
                             </div>
                             <div class="col-md-6 justify-content-center">
                                 <br>
@@ -167,7 +167,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for i in users %}
+                            {% for i in user_info %}
                             <tr>
                                 <th scope="row">{{ loop.index }}</th>
                                 <td>{{ i.name }}</td>
@@ -212,7 +212,7 @@
                         <div class="card-body">
                             <h6 class="card-title">{{ ad.company_name }}</h6>
                             <p class="card-text">{{ ad.content }}</p>
-                            <a class="nav-link active stretched-link" aria-current="page" href="/admin/del/ads/{{i.id}}"
+                            <a class="nav-link active stretched-link" aria-current="page" href="/admin/del/ads/{{ad.id}}"
                                 style="color: rgb(249, 85, 236);">Delete AD!</a>
 
                         </div>
@@ -234,7 +234,7 @@
                             <h6 class="card-title">{{ com.author }}</h6>
                             <p class="card-text">{{ com.content }}</p>
                             <p class="card-text">{{ com.email }}</p>
-                            <a class="nav-link active stretched-link" aria-current="page" href="/admin/del/com/{{i.id}}"
+                            <a class="nav-link active stretched-link" aria-current="page" href="/admin/del/com/{{com.id}}"
                                 style="color: rgb(249, 85, 236);">Delete Msg!</a>
                         </div>
                     </div>

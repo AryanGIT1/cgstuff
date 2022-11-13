@@ -175,7 +175,7 @@
     {% if audio %}
     <div class="container">
         <audio controls>
-            <source src="{{audio}}" type="audio/mpeg">
+            <source src="../{{audio}}" type="audio/mpeg">
         </audio>
     </div>
     <br><br>
@@ -183,7 +183,7 @@
 
     {% if blog.img_link %}
     <div class="container">
-        <img src="{{blog.img_link}}" class="d-block w-100" alt="..." style="height: 35rem; width: 40rem">
+        <img src="..{{blog.img_link}}" class="d-block w-100" alt="..." style="height: 35rem; width: 40rem">
     </div>
     <br><br>
     {% endif %}
@@ -224,7 +224,7 @@
         style="color: rgb(249, 85, 236);">Delete Blog</a>
     {% endif %}
 
-    {% if blog.comms %}
+
     <div class="container">
         <div class="container" style="text-align: center;">
             <h1>Comments</h1>
@@ -267,7 +267,6 @@
         </div>
     </div>
     <br>
-    {% endif %}
 
     {% if admin_con %}
     <div class="container">

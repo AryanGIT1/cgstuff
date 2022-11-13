@@ -133,7 +133,10 @@ def info_admin():
 
 def get_ads():
     ads = Adverts.query.all()
-    x = randint(0,len(ads))
+    if len(ads) == 0:
+        return False
+    
+    x = randint(0,len(ads)-1)
     ad = ads[x]
     return ad
 
@@ -329,7 +332,7 @@ def createBlog():
             uploaded_img = request.files['img_link']
             img_filename = secure_filename(uploaded_img.filename)
             uploaded_img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
-            img_link = str("/static/img/") + str(img_filename)
+            img_link = str("/static/imgs/") + str(img_filename)
         
         author = request.form.get('author')
         title = request.form.get('title')
@@ -384,18 +387,18 @@ def adverts():
     if request.method == 'POST' and current_user.user_admin_status == True:
         company_name = request.form.get('company_name')
         content = request.form.get('content')
-        uploaded_img = request.files['img_link']
         
-        if uploaded_img == None:
-            img_add_com = ""
+        if request.files['img_link'].filename == "":
+            img_link = ""
         else:
+            uploaded_img = request.files['img_link']
             img_filename = secure_filename(uploaded_img.filename)
             uploaded_img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
-            img_add_com = str("/static/img/") + str(img_filename)
+            img_link = str("/static/imgs/") + str(img_filename)
         
         ads = Adverts(company_name = company_name,
                       content = content,
-                      img_add_com = img_add_com)
+                      img_add_com = img_link)
         
         db.session.add(ads)
         db.session.commit()

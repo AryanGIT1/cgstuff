@@ -67,7 +67,8 @@ def text_to_voice(blog):
     text = "Title " + str(blog.title) + ", Author" + str(blog.author) + ". Description: " + str(blog.desc)
     language = 'en' 
     myobj = gTTS(text = text, lang = language, slow = False)
-    myobj.save("tpnews.mp3")
+    myobj.save("news.mp3")
+    return "news.mp3"
     
 if __name__ == '__main__':
     # start = time.time()
