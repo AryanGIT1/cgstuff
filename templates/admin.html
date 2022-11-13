@@ -50,6 +50,7 @@
         <strong>{{msg_red_con}}!</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    {% endif %}
 
     <div class="container">
         <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
@@ -73,35 +74,35 @@
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
                 tabindex="0">
                 <div class="container">
-                    <form action="">
+                    <form method="post" action="/admin/create/blog" enctype="multipart/form-data">
                         <br>
                         <div class="row">
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Author" aria-label="Author">
+                                <input type="text" class="form-control" placeholder="Author" aria-label="Author" name = "author">
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Title" aria-label="Title">
+                                <input type="text" class="form-control" placeholder="Title" aria-label="Title" name = "title">
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Descreption" aria-label="desc">
+                                <input type="text" class="form-control" placeholder="Descreption" aria-label="desc" name = "desc">
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Place" aria-label="place">
+                                <input type="text" class="form-control" placeholder="Place" aria-label="place" name = "place">
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="formFile" class="form-label">Input Image</label>
-                                <input class="form-control" type="file" id="formFile">
+                                <input class="form-control" type="file" id="formFile" name = "img_link">
                             </div>
                             <div class="col-md-6">
                                 <label for="exampleDataList" class="form-label">Input Tags</label>
                                 <input class="form-control" list="datalistOptions" id="exampleDataList"
-                                    placeholder="Type to search...">
+                                    placeholder="Type to search..." name = "tags">
                                 <datalist id="datalistOptions">
                                     <option value="YouTube Podcast">
                                     <option value="Top News">
@@ -113,12 +114,12 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">Content</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name = "content"></textarea>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <input type="text" class="form-control" placeholder="YouTube Link"
-                                    aria-label="Youtube Link">
+                                    aria-label="Youtube Link" name = "yt_link">
                             </div>
                             <div class="col-md-6 justify-content-center">
                                 <button type="submit" class="btn btn-primary">Submit!</button>
@@ -130,7 +131,7 @@
             </div>
             <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                 <div class="container">
-                    <form action="">
+                    <form method="post" action="/admin/create/adverts/">
                         <br>
                         <div class="row">
                             <div class="col-md-6">
@@ -166,21 +167,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for i in users %}
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Name</td>
-                                <td>Email</td>
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>{{ i.name }}</td>
+                                <td>{{ i.email }}</td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Name</td>
-                                <td>Email</td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -198,7 +191,7 @@
                             <h6 class="card-title">{{ i.title }}</h6>
                             <p class="card-text">{{ i.desc }}</p>
                             <p class="card-text">{{ i.date}} ; {{i.place}} ; {{i.tags}}</p>
-                            <a class="nav-link active stretched-link" aria-current="page" href="/admin/blog/{{i.id}}"
+                            <a class="nav-link active stretched-link" aria-current="page" href="/admin/edit/blog/{{i.id}}"
                                 style="color: rgb(249, 85, 236);">Actions!</a>
 
                         </div>
@@ -219,7 +212,7 @@
                         <div class="card-body">
                             <h6 class="card-title">{{ ad.company_name }}</h6>
                             <p class="card-text">{{ ad.content }}</p>
-                            <a class="nav-link active stretched-link" aria-current="page" href="/admin/delads/{{i.id}}"
+                            <a class="nav-link active stretched-link" aria-current="page" href="/admin/del/ads/{{i.id}}"
                                 style="color: rgb(249, 85, 236);">Delete AD!</a>
 
                         </div>
@@ -241,7 +234,7 @@
                             <h6 class="card-title">{{ com.author }}</h6>
                             <p class="card-text">{{ com.content }}</p>
                             <p class="card-text">{{ com.email }}</p>
-                            <a class="nav-link active stretched-link" aria-current="page" href="admin/delcom/{{i.id}}"
+                            <a class="nav-link active stretched-link" aria-current="page" href="/admin/del/com/{{i.id}}"
                                 style="color: rgb(249, 85, 236);">Delete Msg!</a>
                         </div>
                     </div>

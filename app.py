@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -5,13 +6,13 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import json 
 import supp as supp
 from random import randint
-from werkzeug import secure_filename
-import os
+from werkzeug.utils import secure_filename
 
 with open("info.json", "r") as c:
     parameters = json.load(c)["parameters"]
 
 app = Flask(__name__)
+app.app_context().push()
 
 app.config['SQLALCHEMY_DATABASE_URI'] = parameters["database"]
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = parameters["track_modifications"]
@@ -33,7 +34,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(255), nullable = False)
     password = db.Column(db.String(255), nullable = False)
     user_admin_status = db.Column(db.Boolean, nullable = False, default = False)
-    blogs = db.relationship('BlogPost', backref='user', nullable = False, lazy = True)
+    blogs = db.relationship('BlogPost', backref = 'user', lazy = True)
 
     def __repr__(self):
         return "Id: " + str(self.id) + " Name: " + str(self.name)  
@@ -51,7 +52,7 @@ class BlogPost(db.Model):
     tags = db.Column(db.String(256), nullable = False)
     date = db.Column(db.String , nullable = False, default = datetime.now().strftime("%d-%m-%Y"))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
-    comments = db.relationship('BlogComments', backref = 'user', nullable = False, lazy = True)
+    # comments = db.relationship('BlogComments', backref = 'blogpost', lazy = True)
     
     def __repr__(self):
         return "Id: " + str(self.id) + " Title" + str(self.title)
@@ -61,7 +62,7 @@ class BlogComments(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name_com = db.Column(db.String(256), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    blog_id = db.Column(db.Integer, db.ForeignKey('BlogPost.id'), nullable = False)
+    # blog_id = db.Column(db.Integer, db.ForeignKey('blogpost.id'), nullable = False)
     
     def __repr__(self):
         return "Id: " + str(self.id) + " Blog Id" + str(self.blog_id)
@@ -85,7 +86,6 @@ class Adverts(db.Model):
     
     def __repr__(self):
         return "Id: " + str(self.id) + " Author" + str(self.author) + " Company Name" + str(self.company_name)
-    
 
 
 @login_manager.user_loader
@@ -175,7 +175,7 @@ def read_blog(id):
 
 
 @app.route('/blog/audio/<int:id>', methods = ['GET', 'POST'])
-def read_blog(id):
+def read_blog_with_audio(id):
     blog = BlogPost.query.get_or_404(id)
     ad = get_ads()
     audio = supp.text_to_voice(blog)
@@ -189,7 +189,7 @@ def blog_comments(id):
     
     if request.method == 'POST':
         content = request.form.get('content')
-        comm = BlogComments(author = current_user.user_name, 
+        comm = BlogComments(author = current_user.name, 
                             content = content,
                             blog_id = id)
         db.session.add(comm)
@@ -211,17 +211,17 @@ def login():
         
         if pos_users:
             for i in pos_users:
+                if i.email == email and i.password == password and i.user_admin_status:
+                    return redirect(url_for('admin'))
                 if i.email == email and i.password == password:
                     user = User.query.get(i.id)
                     load_user(user.id)
                     login_user(user)
                     msg = str(user.name) + " has Logged in successfully!!"
-                    return render_template('index.html', msg_green = True, msg_green_con = msg, current_user = False, ft_news = ft_news, tp_news = tp_news, fin_news = fin_news, govt_news = govt_news, yt_news = yt_news)
-                if i.email == email and i.password == password and i.user_admin_status:
-                    return redirect(url_for('admin'))
+                    return render_template('index.html', msg_green = True, msg_green_con = msg, user = current_user, ft_news = ft_news, tp_news = tp_news, fin_news = fin_news, govt_news = govt_news, yt_news = yt_news)
         else:
             msg = "Invalid Details!"
-            return render_template('index.html', msg_red = True, msg_red_con = msg, current_user = False, ft_news = ft_news, tp_news = tp_news, fin_news = fin_news, govt_news = govt_news, yt_news = yt_news)
+            return render_template('index.html', msg_red = True, msg_red_con = msg, user = False ,ft_news = ft_news, tp_news = tp_news, fin_news = fin_news, govt_news = govt_news, yt_news = yt_news)
     return redirect( url_for('index'))
     
 
@@ -240,12 +240,13 @@ def signup():
         msg = str(name) + " Welcome!!"
         db.session.add(user)
         db.session.commit()
-        return render_template('index.html', msg_green = True, msg_green_con = msg, current_user = False, ft_news = ft_news, tp_news = tp_news, fin_news = fin_news, govt_news = govt_news, yt_news = yt_news)
+        load_user(user.id)
+        login_user(user)
+        return render_template('index.html', msg_green = True, msg_green_con = msg, current_user = False, ft_news = ft_news, tp_news = tp_news, fin_news = fin_news, govt_news = govt_news, yt_news = yt_news, user = current_user)
     else:
         msg = "Invalid Details!"
         return render_template('index.html', msg_red = True, msg_red_con = msg, current_user = False, ft_news = ft_news, tp_news = tp_news, fin_news = fin_news, govt_news = govt_news, yt_news = yt_news)
-    
-    return redirect( url_for('index'))
+
         
     
 @app.route('/logout')
@@ -267,7 +268,7 @@ def admin():
     else:
         return "Invalid Arguments!"
 
-@app.route('/admin/delads/<int:id>', methods = ['GET', 'POST'])
+@app.route('/admin/del/ads/<int:id>', methods = ['GET', 'POST'])
 @login_required
 def delads(id):
     if current_user.user_admin_status == True:
@@ -279,7 +280,7 @@ def delads(id):
     else:
         return "Invalid Arguments!"
 
-@app.route('/admin/delcom/<int:id>', methods = ['GET', 'POST'])
+@app.route('/admin/del/com/<int:id>', methods = ['GET', 'POST'])
 @login_required
 def delcom(id):
     if current_user.user_admin_status == True:
@@ -292,7 +293,7 @@ def delcom(id):
         return "Invalid Arguments!"
 
 
-@app.route('/admin/delblog/<int:id>', methods = ['GET', 'POST'])
+@app.route('/admin/del/blog/<int:id>', methods = ['GET', 'POST'])
 @login_required
 def delblog(id):
     if current_user.user_admin_status == True:
@@ -305,7 +306,7 @@ def delblog(id):
         return "Invalid Arguments!"
 
 
-@app.route('/admin/delblogcoms/<int:id>', methods = ['GET', 'POST'])
+@app.route('/admin/del/blogcoms/<int:id>', methods = ['GET', 'POST'])
 @login_required
 def delblogcoms(id):
     if current_user.user_admin_status == True:
@@ -318,14 +319,14 @@ def delblogcoms(id):
         return "Invalid Arguments!"
     
 
-@app.route('/admin/createBlog',  methods=("POST", "GET"))
+@app.route('/admin/create/blog',  methods=("POST", "GET"))
 @login_required
 def createBlog():    
     if request.method == 'POST' and current_user.user_admin_status == True:
-        uploaded_img = request.files['img_link']
-        if uploaded_img == None:
+        if request.files['img_link'].filename == "":
             img_link = ""
         else:
+            uploaded_img = request.files['img_link']
             img_filename = secure_filename(uploaded_img.filename)
             uploaded_img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
             img_link = str("/static/img/") + str(img_filename)
@@ -377,32 +378,7 @@ def createBlog():
     return render_template('admin.html', blogs = blogs, user_info = user_info, ads = ads, comms = comms, msg_red = True, msg_red_con = "Something went wrong!!", user = current_user)
 
 
-@app.route('/admin/edit/<int:id>', methods=['GET', 'POST'])
-@login_required
-def edid_blog(id):
-    blog = BlogPost.query.get_or_404(id)
-    if request.method == 'POST' and current_user.user_admin_status == True:
-        blog.title = request.form.get('title')
-        blog.desc = request.form.get('desc')
-        blog.yt_link = request.form.get('yt_link')
-        blog.content = request.form.get('content')
-        blog.place = request.form.get('place')
-        blog.tags = request.form.get('tags')
-        uploaded_img = request.files['img_link']
-        if uploaded_img == None:
-            img_link = ""
-        else:
-            img_filename = secure_filename(uploaded_img.filename)
-            uploaded_img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
-            img_link = str("/static/img/") + str(img_filename)
-            
-        blog.img_link = img_link
-        
-        blogs, user_info, ads, comms = info_admin()
-        return render_template('admin.html', blogs = blogs, user_info = user_info, ads = ads, comms = comms, msg_green = True, msg_green_con = "Changes Added!!", user = current_user)
-    return render_template('blog.html', blog = blog, admin_con = True)
-
-@app.route('/admin/adverts/', methods = ['GET','POST'])
+@app.route('/admin/create/adverts/', methods = ['GET','POST'])
 @login_required
 def adverts():
     if request.method == 'POST' and current_user.user_admin_status == True:
@@ -427,6 +403,33 @@ def adverts():
         return render_template('admin.html', blogs = blogs, user_info = user_info, ads = ads, comms = comms, msg_green = True, msg_green_con = "Ad Created!!", user = current_user)
     blogs, user_info, ads, comms = info_admin()
     return render_template('admin.html', blogs = blogs, user_info = user_info, ads = ads, comms = comms, msg_green = True, msg_green_con = "Something went wrong!!", user = current_user)
+
+
+@app.route('/admin/edit/blog/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edid_blog(id):
+    blog = BlogPost.query.get_or_404(id)
+    if request.method == 'POST' and current_user.user_admin_status == True:
+        blog.title = request.form.get('title')
+        blog.desc = request.form.get('desc')
+        blog.yt_link = request.form.get('yt_link')
+        blog.content = request.form.get('content')
+        blog.place = request.form.get('place')
+        blog.tags = request.form.get('tags')
+        uploaded_img = request.files['img_link']
+        if uploaded_img == None:
+            img_link = ""
+        else:
+            img_filename = secure_filename(uploaded_img.filename)
+            uploaded_img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
+            img_link = str("/static/img/") + str(img_filename)
+            
+        blog.img_link = img_link
+        
+        blogs, user_info, ads, comms = info_admin()
+        return render_template('admin.html', blogs = blogs, user_info = user_info, ads = ads, comms = comms, msg_green = True, msg_green_con = "Changes Added!!", user = current_user)
+    return render_template('blog.html', blog = blog, admin_con = True)
+
 
 
 if __name__ == '__main__':

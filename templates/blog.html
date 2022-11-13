@@ -101,7 +101,8 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn" style="color: rgb(95, 91, 94);" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn" style="color: rgb(95, 91, 94);"
+                        data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn" style="color: rgb(249, 85, 236);">Sign In!</button>
                 </div>
                 </form>
@@ -135,7 +136,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn" style="color: rgb(95, 91, 94);" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn" style="color: rgb(95, 91, 94);"
+                        data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn" style="color: rgb(249, 85, 236);">Sign Up!</button>
                 </div>
                 </form>
@@ -155,7 +157,7 @@
             <div class="col-md-6">
                 <h6>{{blog.date}}</h6>
             </div>
-        <br>
+            <br>
             <div class="col-md-6">
                 <h6>{{blog.place}}</h6>
             </div>
@@ -217,8 +219,12 @@
     </div>
     <br>
     {% endif %}
+    {% if admin_con %}
+    <a class="nav-link active stretched-link" aria-current="page" href="/admin/del/blog/{{blog.id}}"
+        style="color: rgb(249, 85, 236);">Delete Blog</a>
+    {% endif %}
 
-    {% if comms %}
+    {% if blog.comms %}
     <div class="container">
         <div class="container" style="text-align: center;">
             <h1>Comments</h1>
@@ -226,15 +232,17 @@
         <br><br>
         <div class="row">
             {% if user %}
+        <form method="post" action="/blog/comment/{{blog.id}}">
             <div class="col-md-6">
                 <label for="" class="form-label">Add Comment</label>
-                <input type="text" class="form-control" placeholder="Add Comment" aria-label="Add Comment">
+                <input type="text" class="form-control" placeholder="Add Comment" aria-label="Add Comment" name = "content">
             </div>
             <div class="col-md-6">
                 <br>
                 <button type="submit" class="btn" style="color: rgb(249, 85, 236);">Submit!</button>
             </div>
-            {% eles %}
+        </form>
+            {% elif not user %}
             <div class="conatiner" align="center">
                 <h6>Pls Login to add comments!</h6>
             </div>
@@ -242,12 +250,16 @@
         </div>
         <br><br>
         <div class="row">
-            {% for i in comms %}
+            {% for i in blog.comms %}
             <div class="col-sm-4">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">{{ i.name_com }}</h5>
                         <p class="card-text">{{ i.content }}</p>
+                        {% if admin_con %}
+                        <a class="nav-link active stretched-link" aria-current="page" href="/admin/del/com/{{i.id}}"
+                            style="color: rgb(249, 85, 236);">Delete Comment!</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -259,7 +271,7 @@
 
     {% if admin_con %}
     <div class="container">
-        <form action="">
+        <form action="/admin/del/blogcoms/{{blog.id}}">
             <br>
             <div class="row">
                 <div class="col">
@@ -303,8 +315,7 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="YouTube Link"
-                        aria-label="Youtube Link">
+                    <input type="text" class="form-control" placeholder="YouTube Link" aria-label="Youtube Link">
                 </div>
                 <div class="col-md-6 justify-content-center">
                     <button type="submit" class="btn btn-primary">Submit!</button>
