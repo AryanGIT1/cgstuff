@@ -164,7 +164,7 @@
             {% for yt in yt_news %}
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <iframe class = "container" {{yt.yt_link}}</iframe>
+                    <iframe width="560" height="315" src="{{yt.yt_link}}" class = "container" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     <div class="carousel-caption d-none d-md-block">
                         <h5>{{yt.title}}</h5>
                         <p>{{yt.desc}}</p>

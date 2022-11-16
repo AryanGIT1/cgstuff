@@ -191,8 +191,7 @@
     {% if blog.yt_link %}
 
     <div class="container" align=center>
-        <iframe class="container" height="522" src="https://www.youtube.com/embed/{{ blog.yt_link }}?autoplay=1&mute=1">
-        </iframe>
+        <iframe class= "container" height = "480" width = "480" src="https://www.youtube.com/embed/{{blog.yt_link}}?autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
     <br><br>
     {% endif %}
@@ -232,16 +231,17 @@
         <br><br>
         <div class="row">
             {% if user %}
-        <form method="post" action="/blog/comment/{{blog.id}}">
-            <div class="col-md-6">
-                <label for="" class="form-label">Add Comment</label>
-                <input type="text" class="form-control" placeholder="Add Comment" aria-label="Add Comment" name = "content">
-            </div>
-            <div class="col-md-6">
-                <br>
-                <button type="submit" class="btn" style="color: rgb(249, 85, 236);">Submit!</button>
-            </div>
-        </form>
+            <form method="post" action="/blog/comment/{{blog.id}}">
+                <div class="col-md-6">
+                    <label for="" class="form-label">Add Comment</label>
+                    <input type="text" class="form-control" placeholder="Add Comment" aria-label="Add Comment"
+                        name="content">
+                </div>
+                <div class="col-md-6">
+                    <br>
+                    <button type="submit" class="btn" style="color: rgb(249, 85, 236);">Submit!</button>
+                </div>
+            </form>
             {% elif not user %}
             <div class="conatiner" align="center">
                 <h6>Pls Login to add comments!</h6>

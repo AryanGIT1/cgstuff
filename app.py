@@ -215,6 +215,9 @@ def login():
         if pos_users:
             for i in pos_users:
                 if i.email == email and i.password == password and i.user_admin_status:
+                    user = User.query.get(i.id)
+                    load_user(user.id)
+                    login_user(user)
                     return redirect(url_for('admin'))
                 if i.email == email and i.password == password:
                     user = User.query.get(i.id)
@@ -261,7 +264,7 @@ def logout():
     return render_template('index.html', msg_green = True, msg_green_con = msg, current_user = False, ft_news = ft_news, tp_news = tp_news, fin_news = fin_news, govt_news = govt_news, yt_news = yt_news)
 
 
-@app.route('/admin', methods = ['GET', 'POST'])
+@app.route('/admin/', methods = ['GET', 'POST'])
 @login_required
 def admin():
     if current_user.user_admin_status == True:
